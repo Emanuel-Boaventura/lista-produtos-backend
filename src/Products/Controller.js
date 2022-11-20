@@ -30,6 +30,14 @@ class Controller {
 
     return res.json(newProduct);
   }
+
+  static async delete(req, res) {
+    const { productId } = req.params;
+
+    await Model.delete(productId);
+
+    return res.json({ message: 'Produto Deletado.' });
+  }
 }
 
 module.exports = Controller;

@@ -24,6 +24,15 @@ class Model {
     products.push(newProduct);
     return newProduct;
   }
+
+  static delete(productId) {
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].id == productId) {
+        products.splice(i, 1);
+        break;
+      }
+    }
+  }
 }
 
 module.exports = Model;
