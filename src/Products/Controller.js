@@ -38,6 +38,22 @@ class Controller {
 
     return res.json({ message: 'Produto Deletado.' });
   }
+
+  static async update(req, res) {
+    try {
+      const { productId } = req.params;
+      const { name, category, price } = req.body;
+
+      const newProduct = await Model.update(productId, {
+        name,
+        category,
+        price,
+      });
+      return res.json(newProduct);
+    } catch (e) {
+      return res.status(404).json({ error: e.message });
+    }
+  }
 }
 
 module.exports = Controller;

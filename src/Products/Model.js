@@ -33,6 +33,18 @@ class Model {
       }
     }
   }
+
+  static update(productId, { name, category, price }) {
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].id == productId) {
+        products[i].name = name || products[i].name;
+        products[i].category = category || products[i].category;
+        products[i].price = price || products[i].price;
+        return products[i];
+      }
+    }
+    throw new Error('Product not found');
+  }
 }
 
 module.exports = Model;
