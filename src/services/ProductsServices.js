@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid');
 const { products } = require('../database');
 
-class Model {
+class ProductsServices {
   static getAll() {
     return products;
   }
@@ -47,4 +47,4 @@ class Model {
   }
 }
 
-module.exports = Model;
+module.exports = ProductsServices;

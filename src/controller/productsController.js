@@ -1,15 +1,15 @@
-const Model = require('./Model');
+const ProductsServices = require('../services/ProductsServices');
 
 class Controller {
   static async index(req, res) {
-    const products = await Model.getAll();
+    const products = await ProductsServices.getAll();
     return res.json(products);
   }
 
   static async find(req, res) {
     const { productId } = req.params;
 
-    const product = await Model.findById(productId);
+    const product = await ProductsServices.findById(productId);
 
     if (!product) return res.status(404).json({ error: 'Lasco' });
 
@@ -26,7 +26,7 @@ class Controller {
     if (!price)
       return res.status(400).json({ error: "Field 'price' is required" });
 
-    const newProduct = await Model.create({ name, category, price });
+    const newProduct = await ProductsServices.create({ name, category, price });
 
     return res.json(newProduct);
   }
@@ -34,7 +34,7 @@ class Controller {
   static async delete(req, res) {
     const { productId } = req.params;
 
-    await Model.delete(productId);
+    await ProductsServices.delete(productId);
 
     return res.json({ message: 'Produto Deletado.' });
   }
@@ -44,7 +44,7 @@ class Controller {
       const { productId } = req.params;
       const { name, category, price } = req.body;
 
-      const newProduct = await Model.update(productId, {
+      const newProduct = await ProductsServices.update(productId, {
         name,
         category,
         price,
