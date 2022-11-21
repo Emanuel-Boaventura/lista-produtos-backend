@@ -6,8 +6,9 @@ Desafio no qual era preciso criar uma API REST com CRUD simples de produtos.
 
 ### Techs utilizadas
 
-- Node.js
+- NodeJS
 - Express
+- MongoDB
 
 ## Como executar:
 
