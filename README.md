@@ -13,4 +13,5 @@ Desafio no qual era preciso criar uma API REST com CRUD simples de produtos.
 
 - Clone o repositório para seus arquivos locais
 - Na pasta do repositório abra um console e execute o comando "npm i"
+- Cole a URL do MongoDB no arquivo .env
 - Inicie a API com o comando "npm start"

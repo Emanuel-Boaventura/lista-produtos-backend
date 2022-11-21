@@ -1,17 +1,23 @@
-const ProductsServices = require('../services/ProductsServices');
+const Products = require('../schemas/Products');
+const { v4: uuid } = require('uuid');
 
 class Controller {
   static async index(req, res) {
-    const products = await ProductsServices.getAll();
-    return res.json(products);
+    try {
+      const products = await Products.find();
+
+      return res.json(products);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
   }
 
   static async find(req, res) {
     const { productId } = req.params;
 
-    const product = await ProductsServices.findById(productId);
+    const product = await Products.findById(productId);
 
-    if (!product) return res.status(404).json({ error: 'Lasco' });
+    if (!product) return res.status(404).json({ error: 'Produto not found' });
 
     return res.json(product);
   }
@@ -26,15 +32,27 @@ class Controller {
     if (!price)
       return res.status(400).json({ error: "Field 'price' is required" });
 
-    const newProduct = await ProductsServices.create({ name, category, price });
+    const newProduct = new Products({
+      _id: uuid().substring(0, 4),
+      name,
+      category,
+      price,
+      createdAt: new Date().toISOString(),
+    });
 
-    return res.json(newProduct);
+    try {
+      await newProduct.save();
+
+      return res.status(201).json(newProduct);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
   }
 
   static async delete(req, res) {
     const { productId } = req.params;
 
-    await ProductsServices.delete(productId);
+    await Products.delete(productId);
 
     return res.json({ message: 'Produto Deletado.' });
   }
@@ -44,7 +62,7 @@ class Controller {
       const { productId } = req.params;
       const { name, category, price } = req.body;
 
-      const newProduct = await ProductsServices.update(productId, {
+      const newProduct = await Products.update(productId, {
         name,
         category,
         price,

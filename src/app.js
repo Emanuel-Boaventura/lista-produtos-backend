@@ -1,19 +1,12 @@
 require('dotenv').config();
-const { products } = require('./database');
 const express = require('express');
-const productsRouter = require('./Routes');
 const cors = require('cors');
 const app = express();
-const mongoose = require('mongoose');
-const db = mongoose.connection;
 
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const productsRouter = require('./Routes');
+const connectToDatabase = require('./database');
 
-db.on('error', (error) => console.log(error));
-db.once('open', () => console.log('Connected to Database!'));
+connectToDatabase();
 
 app.use(
   cors({
