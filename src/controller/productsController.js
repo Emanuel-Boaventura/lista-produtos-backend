@@ -50,11 +50,15 @@ class Controller {
   }
 
   static async delete(req, res) {
-    const { productId } = req.params;
+    try {
+      const { productId } = req.params;
 
-    await Products.delete(productId);
+      await Products.findByIdAndRemove(productId);
 
-    return res.json({ message: 'Produto Deletado.' });
+      return res.json({ message: 'Produto Deletado.' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
   }
 
   static async update(req, res) {
@@ -62,14 +66,24 @@ class Controller {
       const { productId } = req.params;
       const { name, category, price } = req.body;
 
-      const newProduct = await Products.update(productId, {
-        name,
-        category,
-        price,
-      });
-      return res.json(newProduct);
-    } catch (e) {
-      return res.status(404).json({ error: e.message });
+      if (!name && !category && !price)
+        return res
+          .status(400)
+          .json({ error: 'You must inform a least one new data' });
+
+      const newProduct = await Products.findByIdAndUpdate(
+        productId,
+        {
+          name: name,
+          category: category,
+          price: price,
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ newProduct: newProduct });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
     }
   }
 }
