@@ -32,16 +32,14 @@ class Controller {
     if (!price)
       return res.status(400).json({ error: "Field 'price' is required" });
 
-    const newProduct = new Products({
-      _id: uuid().substring(0, 4),
-      name,
-      category,
-      price,
-      createdAt: new Date().toISOString(),
-    });
-
     try {
-      await newProduct.save();
+      const newProduct = await Products.create({
+        _id: uuid().substring(0, 4),
+        name,
+        category,
+        price,
+        createdAt: new Date().toISOString(),
+      });
 
       return res.status(201).json(newProduct);
     } catch (err) {
