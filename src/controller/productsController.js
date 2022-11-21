@@ -67,7 +67,7 @@ class Controller {
       if (!name && !category && !price)
         return res
           .status(400)
-          .json({ error: 'You must inform a least one new data' });
+          .json({ error: 'You must inform at least one new data' });
 
       const newProduct = await Products.findByIdAndUpdate(
         productId,
@@ -76,10 +76,10 @@ class Controller {
           category: category,
           price: price,
         },
-        { new: true }
+        { returnDocument: 'after' }
       );
 
-      return res.status(200).json({ newProduct: newProduct });
+      return res.status(200).json(newProduct);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
