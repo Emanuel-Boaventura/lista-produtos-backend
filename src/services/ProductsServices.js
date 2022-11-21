@@ -1,5 +1,4 @@
 const { v4: uuid } = require('uuid');
-const { products } = require('../database');
 
 class ProductsServices {
   static getAll() {
